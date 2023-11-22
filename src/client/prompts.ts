@@ -5,14 +5,24 @@ import Message from "../types/message";
 import Client from "../types/client";
 
 export const askThread = async (inbox: Thread[]): Promise<number> => {
-  var inquirerListChoices = [];
-
+  var inquirerListChoices = [
+    {
+      name: "🔁 Refresh",
+      value: -2,
+      short: "🔁 Refresh",
+    },
+    {
+      name: "📤 Exit",
+      value: -1,
+      short: "📤 Exit",
+    },
+  ];
   inbox.forEach((thread: Thread, index: number) => {
     let threadTitle = "";
     if (thread.unread) threadTitle += chalk.dim("[📨]");
     else threadTitle += chalk.dim("[seen]");
     if (thread.group) threadTitle += chalk.dim("[group]");
-    threadTitle += " " + thread.title
+    threadTitle += " " + thread.title;
     let inquirerListElement = {
       name: threadTitle,
       value: index,
@@ -20,11 +30,7 @@ export const askThread = async (inbox: Thread[]): Promise<number> => {
     };
     inquirerListChoices.push(inquirerListElement);
   });
-  inquirerListChoices.push({
-    name: "📤 Exit",
-    value: -1,
-    short: "📤 Exit",
-  });
+
   const { threadIndex } = await inquirer.prompt({
     name: "threadIndex",
     message: "Conversation thread: ",

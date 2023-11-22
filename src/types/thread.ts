@@ -17,7 +17,7 @@ export const castThread = (threadData: any): Thread => {
     title: threadData.thread_title,
     unread: threadData.read_state,
     id: threadData.thread_id,
-    group: (threadData.users.length > 1),
+    group: (threadData.is_group),
     userCount: threadData.users.length,
     users: []
   };

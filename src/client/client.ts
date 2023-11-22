@@ -49,16 +49,16 @@ const handleMessage = async (
   thread: Thread
 ) => {
   if (messageText.length == 0) return false;
-  if (messageText == "/end" || messageText == "/exit") return true;
-  if (messageText == "/delete" || messageText == "/remove") {
+  if (messageText == "/end" || messageText == "/exit" || messageText == "/stop") return true;
+  if (messageText == "/delete" || messageText == "/remove" || messageText == "/dlt" || messageText == "/rm") {
     await commandDelete(thread, client);
     return false;
   }
-  if (messageText == "/story" || messageText == "/str") {
+  if (messageText == "/story" || messageText == "/str" || messageText == "/sto") {
     await commandStories(thread, client);
     return false;
   }
-  if (messageText == "/cmd" || messageText == "/command") {
+  if (messageText == "/cmd" || messageText == "/command" || messageText == "/") {
     let command = await askCommand();
     if (command == "exit") return true;
     if (command == "cancel") return false;
@@ -126,6 +126,7 @@ export const startInterface = async () => {
     inboxSpinner.stop();
     const threadIndex: number = await askThread(inbox);
     if (threadIndex == -1) break;
+    if (threadIndex == -2) continue;
     const thread: Thread = inbox[threadIndex];
     await openThread(thread, client);
   }
