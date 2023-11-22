@@ -7,7 +7,7 @@ A cli client for accessing your Instagram private messages and your friends stor
 npm install
 ```
 ```
-npm build
+npm run build
 ```
 ```
 npm start
@@ -21,4 +21,4 @@ In a thread you have access to `/` commands:
 - delete a message: `/delete` or `/remove`
 - exit this thread: `/end` or `/exit`
 
-Project made with: [instagram-private-api](https://github.com/dilame/instagram-private-api)
+Project made using the library: [instagram-private-api](https://github.com/dilame/instagram-private-api)
