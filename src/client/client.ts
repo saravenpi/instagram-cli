@@ -79,7 +79,6 @@ export const openThread = async (thread: Thread, client: Client) => {
     conversationEnded = stop;
   }
   client.ig.realtime.disconnect();
-  console.clear();
 };
 
 export const startInterface = async () => {
