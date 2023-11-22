@@ -20,6 +20,7 @@ const handleDelete = async (thread: Thread, client: Client) => {
   let deleteSpinner = ora("Deleting item").start();
   await instagramThread.deleteItem(itemId);
   deleteSpinner.stop();
+  console.log("🗑 Message deleted")
   return;
 };
 
