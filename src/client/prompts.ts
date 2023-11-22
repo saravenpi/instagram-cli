@@ -9,11 +9,10 @@ export const askThread = async (inbox: Thread[]): Promise<number> => {
 
   inbox.forEach((thread: Thread, index: number) => {
     let threadTitle = "";
-    if (thread.unread) {
-      threadTitle += chalk.gray("[📨] ") + thread.title;
-    } else {
-      threadTitle += chalk.gray("[seen] ") + thread.title;
-    }
+    if (thread.unread) threadTitle += chalk.dim("[📨]");
+    else threadTitle += chalk.dim("[seen]");
+    if (thread.group) threadTitle += chalk.dim("[group]");
+    threadTitle += " " + thread.title
     let inquirerListElement = {
       name: threadTitle,
       value: index,
@@ -24,8 +23,8 @@ export const askThread = async (inbox: Thread[]): Promise<number> => {
   inquirerListChoices.push({
     name: "📤 Exit",
     value: -1,
-    short: "📤 Exit"
-  })
+    short: "📤 Exit",
+  });
   const { threadIndex } = await inquirer.prompt({
     name: "threadIndex",
     message: "Conversation thread: ",
@@ -67,9 +66,9 @@ export const askCredentials = async () => {
 export const askCommand = async () => {
   const inquirerListChoices = [
     {
-      name: "📤 Exit",
-      value: "exit",
-      short: "Exit",
+      name: "📱 Watch user story",
+      value: "stories",
+      short: "📱 Watch user story",
     },
     {
       name: "🗑 Delete a message",
@@ -77,10 +76,15 @@ export const askCommand = async () => {
       short: "Delete a message",
     },
     {
+      name: "📤 Exit",
+      value: "exit",
+      short: "Exit",
+    },
+    {
       name: "❌ Cancel",
       value: "cancel",
       short: "❌ Cancel",
-    }
+    },
   ];
 
   const { command } = await inquirer.prompt([

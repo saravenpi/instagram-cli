@@ -13,15 +13,34 @@ import {
   askThread,
 } from "./prompts.js";
 import { notify, renderMessages } from "./render.js";
+import getStories, { displayStoryData } from "../lib/stories.js";
 
-const handleDelete = async (thread: Thread, client: Client) => {
+const commandDelete = async (thread: Thread, client: Client) => {
   const itemId = await askDeleteMessage(thread, client);
   let instagramThread = client.ig.entity.directThread(thread.id);
   let deleteSpinner = ora("Deleting item").start();
   await instagramThread.deleteItem(itemId);
   deleteSpinner.stop();
-  console.log("🗑 Message deleted")
+  console.log("🗑 Message deleted");
   return;
+};
+
+const commandStories = async (thread: Thread, client: Client) => {
+  if (thread.group) {
+    console.log("Cannot display stories from a group");
+  } else {
+    let storiesSpinner = ora("Fetching stories").start();
+    const stories = await getStories(client, thread.users[0].username);
+    storiesSpinner.stop()
+    console.log("Stories from " + thread.users[0].username)
+    if (stories.length > 0) {
+      stories.forEach((media, index) => {
+        displayStoryData(media, index);
+      });
+    } else {
+      console.log("No stories from this user");
+    }
+  }
 };
 
 const handleMessage = async (
@@ -32,19 +51,24 @@ const handleMessage = async (
   if (messageText.length == 0) return false;
   if (messageText == "/end" || messageText == "/exit") return true;
   if (messageText == "/delete" || messageText == "/remove") {
-    await handleDelete(thread, client);
+    await commandDelete(thread, client);
+    return false;
+  }
+  if (messageText == "/story" || messageText == "/str") {
+    await commandStories(thread, client);
     return false;
   }
   if (messageText == "/cmd" || messageText == "/command") {
     let command = await askCommand();
     if (command == "exit") return true;
-    if (command == "delete") await handleDelete(thread, client);
     if (command == "cancel") return false;
+    if (command == "delete") await commandDelete(thread, client);
+    if (command == "stories") await commandStories(thread, client);
     return false;
   }
   const messageSpinner = ora("Sending message");
   messageSpinner.start();
-  await sendMessage(client, thread.users[0].username, messageText);
+  await sendMessage(client, thread.id, messageText);
   messageSpinner.stop();
   return false;
 };
@@ -66,7 +90,7 @@ export const openThread = async (thread: Thread, client: Client) => {
     if (messageData.op == "add") {
       let message: Message = castMessage(messageData);
       if (message.threadId == thread.id) {
-        if (message.userId != client.userId) notify(thread.users[0].username);
+        if (message.userId != client.userId) notify(thread.title);
         thread.messages.push(message);
         renderMessages(thread, client);
       }
@@ -101,8 +125,7 @@ export const startInterface = async () => {
     const inbox: Thread[] = await getInbox(client);
     inboxSpinner.stop();
     const threadIndex: number = await askThread(inbox);
-    if (threadIndex == -1)
-      break;
+    if (threadIndex == -1) break;
     const thread: Thread = inbox[threadIndex];
     await openThread(thread, client);
   }

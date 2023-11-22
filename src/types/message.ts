@@ -29,7 +29,7 @@ export const castMessage = (messageData: any): Message => {
     let reactionsString = "";
 
     if (messageData.reactions.likes) {
-        messageData.reactions.likes.forEach(like => {
+        messageData.reactions.likes.forEach(() => {
             reactionsString += "💗"
         });
     }
