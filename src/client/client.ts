@@ -90,7 +90,7 @@ export const openThread = async (thread: Thread, client: Client) => {
     if (messageData.op == "add") {
       let message: Message = castMessage(messageData);
       if (message.threadId == thread.id) {
-        if (message.userId != client.userId) notify(thread.title);
+        // if (message.userId != client.userId) notify(thread.title);
         thread.messages.push(message);
         renderMessages(thread, client);
       }
