@@ -25,56 +25,43 @@ export const castMessage = (messageData: any): Message => {
     link: null,
     reactions: null,
   } as Message;
+
   if (messageData.reactions) {
     let reactionsString = "";
 
     if (messageData.reactions.likes) {
-        messageData.reactions.likes.forEach(() => {
-            reactionsString += "💗"
-        });
+      messageData.reactions.likes.forEach(() => {
+        reactionsString += "💗";
+      });
     }
     if (messageData.reactions.emojis) {
       messageData.reactions.emojis.forEach((emojiElement: any) => {
         reactionsString += emojiElement.emoji;
       });
     }
-    
 
     message.reactions = reactionsString;
   }
-
-  if (message.type == "text") {
-    message.text = messageData.text;
-  }
-
+  if (message.type == "text") message.text = messageData.text;
   if (message.type == "link") {
     message.link = castLink(messageData.link);
     message.text = message.link.text;
   }
-
-  if (message.type == "action_log") {
+  if (message.type == "action_log")
     message.text = messageData.action_log.description;
-  }
-
-  if (message.type == "voice_media") {
+  if (message.type == "voice_media")
     message.media = castMedia(messageData.voice_media.media, false);
-  }
-
-  if (message.type == "media") {
+  if (message.type == "media")
     message.media = castMedia(messageData.media, false);
-  }
-
-  if (message.type == "raven_media") {
+  if (message.type == "raven_media")
     message.media = castMedia(messageData.visual_media.media, false);
-  }
-
+  if (message.type == "placeholder") message.text = "Cannot see this reel";
   if (message.type == "reel_share") {
     message.media = castMedia(
       messageData.reel_share.media,
       messageData.reel_share.is_reel_persisted
     );
   }
-
   if (message.type == "media_share") {
     let tagged: boolean = messageData.direct_media_share ? true : false;
 

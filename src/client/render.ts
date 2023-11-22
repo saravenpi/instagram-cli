@@ -7,7 +7,7 @@ import User from "../types/user.js";
 
 export const notify = (username: string) => {
   notifier.notify({
-    title: "FuckZuck",
+    title: "instagram-cli",
     message: "New message from: " + username,
   });
 };
@@ -37,7 +37,11 @@ const getMessageString = (message: Message, client: Client, thread: Thread) => {
     if (!message.media.expired) messageString += message.media.url;
     else messageString += chalk.gray("expired");
   }
-  if (message.text) messageString += message.text;
+  if (message.text) {
+    if (message.type == "action_log" || message.type == "placeholder")
+      messageString += chalk.dim(message.text);
+    else messageString += message.text;
+  }
   if (!message.media && !message.text)
     messageString += chalk.gray(message.type);
   messageString += "\n";
