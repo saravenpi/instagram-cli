@@ -40,7 +40,7 @@ export const askMessage = async (): Promise<string> => {
   const { messageText } = await inquirer.prompt({
     type: "input",
     name: "messageText",
-    message: "> ",
+    message: "❯ ",
   });
   return messageText;
 };
