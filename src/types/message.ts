@@ -62,14 +62,21 @@ export const castMessage = (messageData: any): Message => {
       messageData.reel_share.is_reel_persisted
     );
   }
+  if (message.type == "animated_media") {
+    message.media = {
+      type: "sticker",
+      url: messageData.animated_media.images.fixed_height.url,
+      expired: false,
+      user: null,
+      tag: false,
+    } as Media;
+  }
   if (message.type == "media_share") {
     let tagged: boolean = messageData.direct_media_share ? true : false;
 
-    if (tagged) {
+    if (tagged)
       message.media = castMedia(messageData.direct_media_share, false);
-    } else {
-      message.media = castMedia(messageData.media_share, false);
-    }
+    else message.media = castMedia(messageData.media_share, false);
   }
 
   return message;

@@ -79,12 +79,12 @@ export const askCommand = async () => {
     {
       name: "🗑 Delete a message",
       value: "delete",
-      short: "Delete a message",
+      short: "🗑 Delete a message",
     },
     {
       name: "📤 Exit",
       value: "exit",
-      short: "Exit",
+      short: "📤 Exit",
     },
     {
       name: "❌ Cancel",
