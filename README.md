@@ -20,5 +20,6 @@ In a thread you have access to `/` commands:
 - Watch user story: `/story` or `/str` or `/sto` (not available in a group thread)
 - delete a message: `/delete` or `/remove` or `/dlt` or `/rm`
 - exit this thread: `/end` or `/exit` or `/stop`
+- send an image from url: `/img <url>` or `/image <url>`
 
 Project made using the library: [instagram-private-api](https://github.com/dilame/instagram-private-api)

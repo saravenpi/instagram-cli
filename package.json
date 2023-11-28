@@ -1,7 +1,7 @@
 {
-  "name": "instagram_client",
+  "name": "instagram-cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "A CLI client for instagram messages and user stories",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "build": "tsc --build",
     "dev": "tsc --build && node dist/index.js"
   },
-  "author": "",
+  "author": "saravenpi",
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.3.0",
@@ -17,6 +17,7 @@
     "inquirer": "^9.2.12",
     "instagram_mqtt": "^1.2.2",
     "instagram-private-api": "^1.45.3",
+    "moment": "^2.29.4",
     "node-notifier": "^10.0.1",
     "ora": "^7.0.1"
   }

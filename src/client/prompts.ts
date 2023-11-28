@@ -106,14 +106,18 @@ export const askCommand = async () => {
 };
 
 export const askDeleteMessage = async (thread: Thread, client: Client) => {
-  const inquirerListChoices = [];
+  const inquirerListChoices = [{
+    name: "❌ Cancel",
+    value: "-1",
+    short: "❌ Cancel"
+  }];
   let today = new Date().toISOString().split("T")[0];
-
   thread.messages.forEach((message: Message) => {
     if (message.userId == client.userId) {
       let messageShortDate = message.date.toISOString().split("T")[0];
       messageShortDate = messageShortDate == today ? "today" : messageShortDate;
-      let messageString = chalk.dim(` [${messageShortDate}] `) + message.text;
+      let messageString = chalk.dim(` [${messageShortDate}] `)
+      messageString += (message.text) ? message.text : chalk.dim(`[${message.type}]`)
       inquirerListChoices.push({
         name: messageString,
         value: message.id,

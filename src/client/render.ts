@@ -4,6 +4,7 @@ import Client from "../types/client.js";
 import Message from "../types/message.js";
 import Thread from "../types/thread.js";
 import User from "../types/user.js";
+import moment from 'moment'
 
 export const notify = (username: string) => {
   notifier.notify({
@@ -22,11 +23,8 @@ const getUsernameFromId = (thread: Thread, userId: number) => {
 
 const getMessageString = (message: Message, client: Client, thread: Thread) => {
   var messageString = "";
-  var today = new Date().toISOString().split("T")[0];
 
-  let messageDate = message.date.toISOString().split("T")[0];
-  if (messageDate == today) messageString += chalk.dim("[today] ");
-  else messageString += chalk.dim("[" + messageDate + "] ");
+  messageString += chalk.dim(`[${moment(message.date).fromNow()}] `)
   if (message.userId == client.userId) {
     messageString += chalk.green(`You:  `);
   } else {

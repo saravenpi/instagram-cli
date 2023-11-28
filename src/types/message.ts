@@ -57,6 +57,8 @@ export const castMessage = (messageData: any): Message => {
     message.media = castMedia(messageData.visual_media.media, false);
   if (message.type == "placeholder") message.text = "Cannot see this reel";
   if (message.type == "reel_share") {
+    if (messageData.reel_share.text)
+      message.text = messageData.reel_share.text
     message.media = castMedia(
       messageData.reel_share.media,
       messageData.reel_share.is_reel_persisted
@@ -73,7 +75,6 @@ export const castMessage = (messageData: any): Message => {
   }
   if (message.type == "media_share") {
     let tagged: boolean = messageData.direct_media_share ? true : false;
-
     if (tagged)
       message.media = castMedia(messageData.direct_media_share, false);
     else message.media = castMedia(messageData.media_share, false);
