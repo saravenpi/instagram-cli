@@ -33,7 +33,7 @@ const getMessageString = (message: Message, client: Client, thread: Thread) => {
   }
   if (message.media) {
     if (!message.media.expired) messageString += message.media.url;
-    else messageString += chalk.gray("expired");
+    else messageString += chalk.dim("media expired ");
   }
   if (message.text) {
     if (message.type == "action_log" || message.type == "placeholder")
@@ -41,7 +41,7 @@ const getMessageString = (message: Message, client: Client, thread: Thread) => {
     else messageString += message.text;
   }
   if (!message.media && !message.text)
-    messageString += chalk.gray(message.type);
+    messageString += chalk.dim(message.type);
   messageString += "\n";
   if (message.reactions)
     messageString += chalk.dim("[" + message.reactions + "]\n");
